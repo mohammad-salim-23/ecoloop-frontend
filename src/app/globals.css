@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  /* custom green color*/
+  --color-forest-green: #228B22;
+  --color-lime-green: #32CD32;
+  --color-dark-green: #006400;
+  
+  /* font configuration*/
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+  margin: 0; 
+}
