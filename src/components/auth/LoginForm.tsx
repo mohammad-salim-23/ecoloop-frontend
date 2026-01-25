@@ -4,15 +4,45 @@ import { useForm } from "react-hook-form";
 import { loginUser } from "@/services/AuthService";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Swal from "sweetalert2"; // SweetAlert2 
 
 const LoginForm = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm();
   const router = useRouter();
 
   const onSubmit = async (data: any) => {
-    const res = await loginUser(data);
-    if (res?.success) {
-      router.push("/dashboard"); 
+    try {
+      const res = await loginUser(data);
+
+      if (res?.success) {
+        // success message
+        Swal.fire({
+          icon: "success",
+          title: "লগইন সফল!",
+          text: "আপনাকে ড্যাশবোর্ডে নিয়ে যাওয়া হচ্ছে...",
+          timer: 1500,
+          showConfirmButton: false,
+          color: "#228B22", // forest-green
+        });
+        
+        router.push("/");
+      } else {
+        // 
+        Swal.fire({
+          icon: "error",
+          title: "লগইন ব্যর্থ!",
+          text: res?.message || "কিছু একটা ভুল হয়েছে",
+          confirmButtonColor: "#228B22",
+        });
+      }
+    } catch (error: any) {
+      // network or any error 
+      Swal.fire({
+        icon: "error",
+        title: "দুঃখিত!",
+        text: "সার্ভারে সংযোগ দেওয়া যাচ্ছে না",
+        confirmButtonColor: "#228B22",
+      });
     }
   };
 
@@ -45,9 +75,10 @@ const LoginForm = () => {
 
         <button
           type="submit"
-          className="w-full py-3 mt-4 font-semibold text-white bg-forest-green rounded-lg hover:bg-dark-green transition-colors shadow-lg"
+          disabled={isSubmitting}
+          className={`w-full py-3 mt-4 font-semibold text-white bg-forest-green rounded-lg hover:bg-dark-green transition-colors shadow-lg ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
         >
-          Login
+          {isSubmitting ? "Logging in..." : "Login"}
         </button>
       </form>
 

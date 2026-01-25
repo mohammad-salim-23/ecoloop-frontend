@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { registerUser } from "@/services/AuthService"; // আপনার পাথ অনুযায়ী
+import { registerUser } from "@/services/AuthService"; //
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -15,7 +15,7 @@ const RegisterForm = () => {
     const userData = { ...data, role };
     const res = await registerUser(userData);
     if (res?.success) {
-      router.push("/");
+      router.push("/login");
     }
   };
 
