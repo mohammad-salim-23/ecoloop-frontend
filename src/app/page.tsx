@@ -30,7 +30,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* --- How it Works (Flowchart logic) --- */}
+      {/* --- How it Works --- */}
       <section className="py-24 px-6 bg-green-50/50">
         <div className="max-w-7xl mx-auto text-center mb-16">
           <h2 className="text-4xl font-black text-dark-green mb-4">How EcoLoop Works</h2>

@@ -1,6 +1,9 @@
-import { Leaf } from "lucide-react";
+"use client";
+import { Leaf, Menu, X } from "lucide-react";
+import { useState } from "react";
 
 export default function Navbar() {
+    const [isOpen, setIsOpen] = useState(false);
     return (
         <div>
                <nav className="fixed top-0 w-full bg-white/70 backdrop-blur-lg border-b border-green-100 z-50">
@@ -18,7 +21,27 @@ export default function Navbar() {
               Get Started
             </button>
           </div>
+          {/* Mobile hamberger menu */}
+          <div className="md:hidden">
+              <button 
+              onClick={()=> setIsOpen(!isOpen)}>
+                {isOpen ? <X size={28}/> : <Menu size={28}/>}
+              </button>
+          </div>
         </div>
+        {/* Mobile menu overlay */}
+        {isOpen && (
+            <div className="md:hidden  top-20 left-0 w-full bg-white border-b border-green-100 shadow-xl ">
+                <div className="flex flex-col p-6 space-y-4 font-semibold text-gray-600">
+                    <a href="#features" className="hover:text-forest-green transition">Marketplace</a>
+                    <a href="#how" className="hover:text-forest-green transition">Collector Guide</a>
+                    <button className="bg-forest-green text-white px-8 py-3 rounded-xl font-bold hover:bg-dark-green transition-all shadow-lg shadow-green-200 w-full">
+                      Get Started
+                    </button>
+                </div>
+            </div>
+        )}
+       
       </nav>
         </div>
     )
