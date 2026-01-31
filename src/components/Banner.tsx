@@ -1,9 +1,39 @@
-import { MapPin, Recycle } from "lucide-react";
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { MapPin, Recycle, X } from "lucide-react";
+import PostForm from "./post/PostForm";
+import { getCurrentUser } from "@/services/AuthService";
+
 
 export default function Banner() {
-    return (
-        <div>
-              {/* --- Hero Section --- */}
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const router = useRouter();
+  
+useEffect(()=>{
+  const checkUser = async()=>{
+    const currentUser = await getCurrentUser();
+    setUser(currentUser)
+  };
+  checkUser();
+},[])
+  const handleSellClick = () => {
+    if (user) {
+      setIsModalOpen(true);
+    } else {
+      router.push("/login");
+    }
+  };
+
+  const handleCollectorClick = () => {
+    router.push("/register"); 
+  };
+
+  return (
+    <div className="relative">
+      {/* --- Hero Section --- */}
       <section className="pt-32 pb-20 lg:pt-48 lg:pb-32 px-6">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8">
@@ -15,17 +45,25 @@ export default function Banner() {
               <span className="text-lime-green">Smart Earnings.</span>
             </h1>
             <p className="text-xl text-gray-600 max-w-lg leading-relaxed">
-              আপনার জমানো প্লাস্টিক এখন সম্পদ। EcoLoop-এর মাধ্যমে সহজে পোস্ট করুন আর সরাসরি কালেক্টরের কাছে বিক্রি করে আয় করুন।
+              Your collected plastic is now a valuable resource. Post easily through EcoLoop and earn by selling directly to verified collectors.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="bg-forest-green text-white px-10 py-5 rounded-2xl font-bold text-lg hover:bg-dark-green transition-all transform hover:-translate-y-1 shadow-2xl">
+              <button 
+                onClick={handleSellClick}
+                className="bg-forest-green text-white px-10 py-5 rounded-2xl font-bold text-lg hover:bg-dark-green transition-all transform hover:-translate-y-1 shadow-2xl"
+              >
                 I want to Sell
               </button>
-              <button className="bg-white border-2 border-forest-green text-forest-green px-10 py-5 rounded-2xl font-bold text-lg hover:bg-green-50 transition-all">
+              <button 
+                onClick={handleCollectorClick}
+                className="bg-white border-2 border-forest-green text-forest-green px-10 py-5 rounded-2xl font-bold text-lg hover:bg-green-50 transition-all"
+              >
                 Become a Collector
               </button>
             </div>
           </div>
+
+          {/* Marketplace Preview (Right Side) */}
           <div className="relative">
             <div className="absolute -inset-4 bg-lime-200/50 rounded-[40px] blur-3xl" />
             <div className="relative bg-white border border-green-100 rounded-[32px] p-8 shadow-2xl">
@@ -57,6 +95,31 @@ export default function Banner() {
           </div>
         </div>
       </section>
+
+      {/* --- Modal System --- */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center p-4">
+          {/* Overlay */}
+          <div 
+            className="absolute inset-0 bg-dark-green/40 backdrop-blur-sm"
+            onClick={() => setIsModalOpen(false)}
+          />
+          
+          {/* Modal Content */}
+          <div className="relative bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-[32px] shadow-2xl animate-in zoom-in duration-300">
+            <button 
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-6 right-6 p-2 bg-gray-100 rounded-full hover:bg-red-50 hover:text-red-500 transition-all z-10"
+            >
+              <X size={20} />
+            </button>
+            
+            <div className="p-2">
+               <PostForm /> 
+            </div>
+          </div>
         </div>
-    )
+      )}
+    </div>
+  );
 }

@@ -18,8 +18,8 @@ const LoginForm = () => {
         // success message
         Swal.fire({
           icon: "success",
-          title: "লগইন সফল!",
-          text: "আপনাকে ড্যাশবোর্ডে নিয়ে যাওয়া হচ্ছে...",
+          title: "Login Success!",
+          text: "...",
           timer: 1500,
           showConfirmButton: false,
           color: "#228B22", // forest-green
@@ -30,8 +30,8 @@ const LoginForm = () => {
         // 
         Swal.fire({
           icon: "error",
-          title: "লগইন ব্যর্থ!",
-          text: res?.message || "কিছু একটা ভুল হয়েছে",
+          title: "Login Failed!",
+          text: res?.message || "Something error",
           confirmButtonColor: "#228B22",
         });
       }
@@ -39,8 +39,8 @@ const LoginForm = () => {
       // network or any error 
       Swal.fire({
         icon: "error",
-        title: "দুঃখিত!",
-        text: "সার্ভারে সংযোগ দেওয়া যাচ্ছে না",
+        title: "Sorry!",
+        text: "An error occurred. Please try again later.",
         confirmButtonColor: "#228B22",
       });
     }
